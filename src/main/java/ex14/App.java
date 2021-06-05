@@ -5,43 +5,58 @@
 
 package ex14;
 
+import java.text.DecimalFormat;
 import java.util.Scanner;
-
-/*
-You don’t always need a complex control structure to solve simple problems.
-Sometimes a program requires an extra step in one case,
-but in all other cases there’s nothing to do.
-
-Write a simple program to compute the tax on an order amount.
-The program should prompt for the order amount and the state.
-If the state is “WI,” then the order must be charged 5.5% tax.
-The program should display the subtotal, tax, and total for Wisconsin
-residents but display just the total for non-residents.
-
-Example Output
-What is the order amount? 10
-What is the state? WI
-The subtotal is $10.00.
-The tax is $0.55.
-The total is $10.55.
-Or
-
-What is the order amount? 10
-What is the state? MN
-The total is $10.00
-
-Constraints
-Implement this program using only a simple if statement—don’t use an else clause.
-Ensure that all money is rounded up to the nearest cent.
-Use a single output statement at the end of the program to
-display the program results.
- */
 
 public class App {
     static Scanner in = new Scanner(System.in);
+    public static double WI_TAX = 0.055;
 
     public static void main(String[] args) {
         App myApp = new App();
 
+        // Input
+        String orderAmount = myApp.readOrderAmount();
+        String state = myApp.readState();
+
+        // Calculations and Output
+        String output = myApp.generateOutput(state, orderAmount);
+        myApp.outputString(output);
+    }
+
+    public String readOrderAmount() {
+        System.out.print("What is the order amount? ");
+        return in.nextLine();
+    }
+
+    public String readState() {
+        System.out.print("What is the state? (two letters, all caps: ex, TX) ");
+        return in.nextLine();
+    }
+
+    public String generateOutput(String state, String orderAmount) {
+        double price = Double.parseDouble(orderAmount);
+
+        String str1 = "The total is ";
+
+        // Only do tax if the state is wisconsin
+        if (state.equals("WI")) {
+            DecimalFormat df = new DecimalFormat("'$'#.##");
+
+            double tax = price * WI_TAX;
+            String taxRounded = df.format(tax);
+
+            String str2 = String.format("The tax is %s.\n", taxRounded);
+
+            // You need the total that has total with the tax
+            return str2 + str1 + String.format("$%.2f.", price + tax);
+        }
+
+        // You just need the base total
+        return str1 + String.format("$%.2f.", price);
+    }
+
+    public void outputString(String output) {
+        System.out.println(output);
     }
 }
