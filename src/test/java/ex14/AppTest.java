@@ -11,23 +11,29 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class AppTest {
     @Test
-    public void output_string_includes_tax_and_total () {
+    public void output_string_wisconsin () {
         App myApp = new App();
 
         String state = "WI";
         String orderAmount = "10.00";
 
-        String expectedOutput = "The total is $10.00.";
-
-        if (state.equals("WI")) {
-
-            expectedOutput = "The tax is $0.55.\n" +
-                    "The total is $10.55.";
-        }
+        String expectedOutput = "The tax is $0.55.\nThe total is $10.55.";
 
         String actualOutput = myApp.generateOutput(state, orderAmount);
 
         assertEquals(expectedOutput, actualOutput);
     }
+    @Test
+    public void output_string_not_wisconsin () {
+        App myApp = new App();
 
+        String state = "MN";
+        String orderAmount = "10.00";
+
+        String expectedOutput = "The total is $10.00.";
+
+        String actualOutput = myApp.generateOutput(state, orderAmount);
+
+        assertEquals(expectedOutput, actualOutput);
+    }
 }
