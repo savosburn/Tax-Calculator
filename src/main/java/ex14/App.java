@@ -26,12 +26,24 @@ public class App {
 
     public String readOrderAmount() {
         System.out.print("What is the order amount? ");
+
+        while (!in.hasNextDouble()) {
+            System.out.print("Invalid amount. Enter again: ");
+            in.nextLine();
+        }
+
         return in.nextLine();
     }
 
     public String readState() {
-        System.out.print("What is the state? (two letters, all caps: ex, TX) ");
-        return in.nextLine();
+        System.out.print("What is the state? (ex: TX) ");
+
+        while (in.hasNextDouble()) {
+            System.out.print("Invalid state. Enter again: ");
+            in.nextLine();
+        }
+
+        return in.nextLine().toUpperCase();
     }
 
     public String generateOutput(String state, String orderAmount) {
